@@ -1,0 +1,46 @@
+const{test,expect} = require("@playwright/test")
+
+test("Login page",async function ({page}) {
+
+    await page.goto("https://www.saucedemo.com/v1/")
+
+    await page.locator("//input[@id = 'user-name']").type("standard_user")
+    await page.locator("//input[@id = 'password']").type("secret_sauce")
+    await page.locator("//input[@id='login-button']").click()
+
+    await expect(page).toHaveURL("https://www.saucedemo.com/v1/inventory.html")
+
+    await page.locator("(//button[contains(text(),'ADD TO CART')])[1]").click()
+
+    await page.locator("(//button[contains(text(),'ADD TO CART')])[2]").click()
+
+    await page.locator("svg[role='img']").click()
+
+    
+
+
+    await expect(page).toHaveURL("https://www.saucedemo.com/v1/cart.html")
+
+    await page.waitForTimeout(5000)
+
+    await page.locator("//a[normalize-space()='CHECKOUT']").click()
+
+    await expect(page).toHaveURL("https://www.saucedemo.com/v1/checkout-step-one.html")
+
+    await page.locator("//input[@id = 'first-name']").type("Kartik")
+    await page.locator("//input[@id = 'last-name']").type("Sharma")
+    await page.locator("//input[@id = 'postal-code']").type("110092")
+    await page.locator("//input[@value = 'CONTINUE']").click()
+
+    await expect(page).toHaveURL("https://www.saucedemo.com/v1/checkout-step-two.html")
+
+    await page.locator("//a[normalize-space() = 'FINISH']").click()
+
+    await expect(page).toHaveURL("https://www.saucedemo.com/v1/checkout-complete.html")
+
+    await page.waitForTimeout(3000)
+
+
+    
+    
+})
